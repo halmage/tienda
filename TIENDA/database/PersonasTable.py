@@ -20,16 +20,16 @@ class PersonasTable:
             print("La tabla persona ya existe")
         conexion.close()
 
-    def create(self, resultado):
-        # Insertar un nuevo resultado en la tabla 'operaciones'
+    def create(self, datos):
+        # Insertar un nuevo datos en la tabla 'personas'
         conexion = sqlite3.connect("database/tienda.db")
         conexion.execute(
             "insert into Personas(cedula,nombre,apellido,telefono) values (?,?,?,?)",
             (
-                resultado["cedula"],
-                resultado["nombre"],
-                resultado["apellido"],
-                resultado["telefono"],
+                datos["cedula"],
+                datos["nombre"],
+                datos["apellido"],
+                datos["telefono"],
             ),
         )
         conexion.commit()
@@ -39,4 +39,11 @@ class PersonasTable:
         conexion = sqlite3.connect("database/tienda.db")
         res = conexion.execute("SELECT * FROM Personas")
         return res.fetchall()
+        conexion.close()
+
+    def find(self, cedula):
+        # Obtener todos los resultados almacenados en la tabla 'operaciones'
+        conexion = sqlite3.connect("database/tienda.db")
+        res = conexion.execute(f"SELECT * FROM Personas WHERE cedula ={cedula}")
+        return res.fetchone()
         conexion.close()
